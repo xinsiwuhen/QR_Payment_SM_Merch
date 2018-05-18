@@ -35,7 +35,6 @@ public class RefundOrderServlet extends TransControllerServlet {
 		String strRefundFee = request.getParameter("refund_fee");
 		String strRefundDesc = CommonTool.transferCharactor(request.getParameter("refund_desc"), "ISO-8859-1", "UTF-8");
 		
-		
 		System.out.println("###strRefundDesc = " + strRefundDesc);
 		
 		

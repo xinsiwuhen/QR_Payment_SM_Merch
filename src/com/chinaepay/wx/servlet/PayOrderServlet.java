@@ -26,7 +26,7 @@ public class PayOrderServlet extends TransControllerServlet {
 	public void doGet(HttpServletRequest request, HttpServletResponse response) {
 		String strSubMerchId = request.getParameter("sub_mch_id");
 		String strTotalFee = request.getParameter("total_fee");
-		String strBody = request.getParameter("body");
+		String strBody = CommonTool.transferCharactor(request.getParameter("body"), "ISO-8859-1", "UTF-8");
 		String strOpenid = request.getParameter("openid");
 		String strUserPayType = request.getParameter("user_pay_type");	// 1：扫码支付； 2： 公众号支付；3：刷卡支付；4：APP支付；5: H5支付；6：小程序支付
 		
