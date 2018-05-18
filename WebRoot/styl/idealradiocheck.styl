@@ -1,0 +1,99 @@
+// Ideal Radio & Check
+//---------------------------------------
+
+form.idealforms
+
+  .ideal-radiocheck-label
+    display: inline-block
+    padding: .25em 0 !important
+    cursor: pointer
+
+    if group-horizontal
+      margin: .15em 10px !important
+
+    input
+      float: left
+
+  if radiocheck-sprite
+
+    .ideal-check, .ideal-radio
+      float: left
+      margin-right: 10px !important
+      width: 20px
+      height: 20px
+      background: url(../img/radiocheck.png) 0 0
+
+    .ideal-check.focus
+      background-position: -20px 0
+
+    .ideal-check.checked
+      background-position: -40px 0
+
+    .ideal-check.checked.focus
+      background-position: -60px 0
+
+    .ideal-radio
+      background-position: 0 bottom
+
+    .ideal-radio.focus
+      background-position: -20px bottom
+
+    .ideal-radio.checked
+      background-position: -40px bottom
+
+    .ideal-radio.checked.focus
+      background-position: -60px bottom
+
+  else
+
+    .ideal-check, .ideal-radio
+      position: relative
+      float: left
+      margin-right: 10px !important
+      width: radiocheck-size
+      height: radiocheck-size
+      background: linear-gradient(white, #eee)
+      border: 1px solid #aaa
+      border-radius: 4px
+      box-shadow: 0 1px 1px rgba(black, .2)
+      &:after
+        display: none
+
+    .ideal-radio
+      border-radius: 18px
+
+    .ideal-check.focus, .ideal-radio.focus
+      border-color: valid
+      box-shadow: 0 1px 1px rgba(black, .2), 0 0 3px rgba(valid, .75)
+
+    .ideal-check:after, .ideal-radio:after
+      content: "×"
+      font-family: Arial, sans-serif
+      position: absolute
+      left: 50%
+      width: radiocheck-size
+      margin-left: -(radiocheck-size/2)
+      line-height: radiocheck-size
+      text-align: center
+      font-size: radiocheck-size
+      color: #888
+      text-shadow: 1px 1px 0 white
+
+    .ideal-radio:after
+      size = (radiocheck-size/4)
+      content: ""
+      height: size
+      width: size
+      top: 50%
+      left: 50%
+      margin-top: -(size/2)
+      margin-left: -(size/2)
+      border-radius: size
+      background: #888
+
+    .ideal-check.checked
+    .ideal-check.checked.focus
+    .ideal-radio.checked
+    .ideal-radio.checked.focus
+      &:after
+        display: block

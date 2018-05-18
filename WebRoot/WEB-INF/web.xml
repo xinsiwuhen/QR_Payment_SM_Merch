@@ -1,0 +1,297 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<web-app xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+				xmlns="http://java.sun.com/xml/ns/javaee" 
+				xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_3_0.xsd" 
+				id="WebApp_ID" 
+				version="3.0">
+  <display-name>SM_QR_Payment</display-name>
+  
+  <!-- 指定【下载对账单】（含：支付单、退款单）计划任务的具体时间（小时、分钟、秒）。默认为：10:30:00 -->
+  <context-param>
+  	<param-name>Hour_DownloadBill</param-name>
+ 	<param-value>10</param-value>
+  </context-param>
+  <context-param>
+  	<param-name>Minute_DownloadBill</param-name>
+ 	<param-value>00</param-value>
+  </context-param>
+  <context-param>
+  	<param-name>Second_DownloadBill</param-name>
+ 	<param-value>00</param-value>
+  </context-param>
+  <context-param>
+  	<param-name>DelayTime_DownloadBill</param-name><!-- 如果进程启动时的时间点在任务默认时间之后时，则启动时延迟0分钟执行，即马上执行 -->
+ 	<param-value>0</param-value>
+  </context-param>
+  
+  <!-- 指定【核对对账单】（含：比对支付单、退款单）计划任务的具体时间（小时、分钟、秒）。默认为：11:00:00 -->
+  <context-param>
+  	<param-name>Hour_ReconBill</param-name>
+ 	<param-value>10</param-value>
+  </context-param>
+  <context-param>
+  	<param-name>Minute_ReconBill</param-name>
+ 	<param-value>15</param-value>
+  </context-param>
+  <context-param>
+  	<param-name>Second_ReconBill</param-name>
+ 	<param-value>00</param-value>
+  </context-param>
+  <context-param>
+  	<param-name>DelayTime_ReconBill</param-name><!-- 如果进程启动时的时间点在任务默认时间之后时，则启动时延迟5分钟执行 -->
+ 	<param-value>5</param-value>
+  </context-param>
+  
+  <!-- 指定【生成中间结算单(支付单/退款单套用分佣模板向下级清分)】计划任务的具体时间（小时、分钟、秒）。默认为：12:00:00 -->
+  <context-param>
+  	<param-name>Hour_ProcMiddleSettle</param-name>
+ 	<param-value>10</param-value>
+  </context-param>
+  <context-param>
+  	<param-name>Minute_ProcMiddleSettle</param-name>
+ 	<param-value>30</param-value>
+  </context-param>
+  <context-param>
+  	<param-name>Second_ProcMiddleSettle</param-name>
+ 	<param-value>00</param-value>
+  </context-param>
+  <context-param>
+  	<param-name>DelayTime_ProcMiddleSettle</param-name><!-- 如果进程启动时的时间点在任务默认时间之后时，则启动时延迟10分钟执行 -->
+ 	<param-value>10</param-value>
+  </context-param>
+  
+  <!-- 指定【生成最终结算单】时计划任务的具体时间（小时、分钟、秒）。默认为：18:30:00 -->
+  <context-param>
+  	<param-name>Hour_ProcFinalSettle</param-name>
+ 	<param-value>10</param-value>
+  </context-param>
+  <context-param>
+  	<param-name>Minute_ProcFinalSettle</param-name>
+ 	<param-value>45</param-value>
+  </context-param>
+  <context-param>
+  	<param-name>Second_ProcFinalSettle</param-name>
+ 	<param-value>00</param-value>
+  </context-param>
+  <context-param>
+  	<param-name>DelayTime_ProcFinalSettle</param-name><!-- 如果进程启动时的时间点在任务默认时间之后时，则启动时延迟15分钟执行 -->
+ 	<param-value>15</param-value>
+  </context-param>
+  
+  <!-- 指定【下载结算单】计划任务的具体时间（小时、分钟、秒）。默认为：18:00:00 -->
+  <context-param>
+  	<param-name>Hour_DownloadSettle</param-name>
+ 	<param-value>15</param-value>
+  </context-param>
+  <context-param>
+  	<param-name>Minute_DownloadSettle</param-name>
+ 	<param-value>00</param-value>
+  </context-param>
+  <context-param>
+  	<param-name>Second_DownloadSettle</param-name>
+ 	<param-value>00</param-value>
+  </context-param>
+  
+  <!-- 创建二维码 -->
+  <servlet>
+    <servlet-name>genQrCodeServlet</servlet-name>
+    <servlet-class>com.chinaepay.wx.servlet.GenQRCodeServlet</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>genQrCodeServlet</servlet-name>
+    <url-pattern>/qrcode/genQrCodeSvlt</url-pattern>
+  </servlet-mapping>
+  
+  <!-- 在获取支付用户的OpenId之前，获取授权码Code -->
+  <servlet>
+    <servlet-name>getWxAuthCodeServlet</servlet-name>
+    <servlet-class>com.chinaepay.wx.servlet.GetWxAuthCodeServlet</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>getWxAuthCodeServlet</servlet-name>
+    <url-pattern>/payment/getWxAuthCodeServlet</url-pattern>
+  </servlet-mapping>
+  
+  
+  <!-- 获取微信的OpenId，并打开需要用户输入支付金额的页面 -->
+  <servlet>
+    <servlet-name>getWxOpenIdServlet</servlet-name>
+    <servlet-class>com.chinaepay.wx.servlet.GetWxOpenIdServlet</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>getWxOpenIdServlet</servlet-name>
+    <url-pattern>/payment/getWxOpenIdServlet</url-pattern>
+  </servlet-mapping>
+  
+  <!-- 统一支付 -->
+  <servlet>
+    <servlet-name>payOrderServlet</servlet-name>
+    <servlet-class>com.chinaepay.wx.servlet.PayOrderServlet</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>payOrderServlet</servlet-name>
+    <url-pattern>/payment/payOrderServlet</url-pattern>
+  </servlet-mapping>
+  
+  <!-- 支付回调 -->
+  <servlet>
+    <servlet-name>notifyURLServlet</servlet-name>
+    <servlet-class>com.chinaepay.wx.servlet.NotifyURLServlet</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>notifyURLServlet</servlet-name>
+    <url-pattern>/payment/notifyURLServlet</url-pattern>
+  </servlet-mapping>
+  
+  <!-- 关闭订单 -->
+  <servlet>
+    <servlet-name>closeOrderServlet</servlet-name>
+    <servlet-class>com.chinaepay.wx.servlet.CloseOrderServlet</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>closeOrderServlet</servlet-name>
+    <url-pattern>/payment/closeOrderServlet</url-pattern>
+  </servlet-mapping>
+  
+  <!-- 申请退款 -->
+  <servlet>
+    <servlet-name>refundOrderServlet</servlet-name>
+    <servlet-class>com.chinaepay.wx.servlet.RefundOrderServlet</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>refundOrderServlet</servlet-name>
+    <url-pattern>/payment/refundOrderServlet</url-pattern>
+  </servlet-mapping>
+  
+   <!-- 后台批量校验[支付单的支付状态] -->
+  <servlet>
+    <servlet-name>inquiryPayOrderServlet</servlet-name>
+    <servlet-class>com.chinaepay.wx.servlet.InquiryPayOrderServlet</servlet-class>
+    <load-on-startup>0</load-on-startup>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>inquiryPayOrderServlet</servlet-name>
+    <url-pattern>/payment/inquiryPayOrderServlet</url-pattern>
+  </servlet-mapping>
+  
+  <!-- 后台批量校验[退款单的退款状态] -->
+  <servlet>
+    <servlet-name>inquiryRefundOrderServlet</servlet-name>
+    <servlet-class>com.chinaepay.wx.servlet.InquiryRefundOrderServlet</servlet-class>
+    <load-on-startup>1</load-on-startup>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>inquiryRefundOrderServlet</servlet-name>
+    <url-pattern>/payment/inquiryRefundOrderServlet</url-pattern>
+  </servlet-mapping>
+  
+  <!-- 下载[支付单]对应的[对账单]信息 -->
+  <servlet>
+  	<servlet-name>downloadBillPayOrderServlet</servlet-name>
+  	<servlet-class>com.chinaepay.wx.servlet.DownloadBillPayOrderServlet</servlet-class>
+ 	<load-on-startup>2</load-on-startup>
+  </servlet>
+  <servlet-mapping>
+  	<servlet-name>downloadBillPayOrderServlet</servlet-name>
+  	<url-pattern>/payment/downloadBillPayOrderServlet</url-pattern>
+  </servlet-mapping>
+  
+  <!-- 下载[退款单]对应的[对账单]信息 -->
+  <servlet>
+  	<servlet-name>downloadBillRefundOrderServlet</servlet-name>
+  	<servlet-class>com.chinaepay.wx.servlet.DownloadBillRefundOrderServlet</servlet-class>
+ 	<load-on-startup>3</load-on-startup>
+  </servlet>
+  <servlet-mapping>
+  	<servlet-name>downloadBillRefundOrderServlet</servlet-name>
+  	<url-pattern>/payment/downloadBillRefundOrderServlet</url-pattern>
+  </servlet-mapping>
+  
+  <!-- 下载[结算单](Tencent向NOB结算)信息 -->
+  <servlet>
+  	<servlet-name>downloadSettleOrderServlet</servlet-name>
+  	<servlet-class>com.chinaepay.wx.servlet.DownloadSettleOrderServlet</servlet-class>
+ 	<load-on-startup>4</load-on-startup>
+  </servlet>
+  <servlet-mapping>
+  	<servlet-name>downloadSettleOrderServlet</servlet-name>
+  	<url-pattern>/payment/downloadSettleOrderServlet</url-pattern>
+  </servlet-mapping>
+  
+  <!-- 核对NOB与腾讯之间的[支付单]信息 -->
+  <servlet>
+  	<servlet-name>reconPayBillOrderServlet</servlet-name>
+  	<servlet-class>com.chinaepay.wx.servlet.ReconPayBillOrderServlet</servlet-class>
+ 	<load-on-startup>5</load-on-startup>
+  </servlet>
+  <servlet-mapping>
+  	<servlet-name>reconPayBillOrderServlet</servlet-name>
+  	<url-pattern>/payment/reconPayBillOrderServlet</url-pattern>
+  </servlet-mapping>
+  
+  <!-- 核对NOB与腾讯之间的[退款单]信息 -->
+  <servlet>
+  	<servlet-name>reconRefundBillOrderServlet</servlet-name>
+  	<servlet-class>com.chinaepay.wx.servlet.ReconRefundBillOrderServlet</servlet-class>
+ 	<load-on-startup>6</load-on-startup>
+  </servlet>
+  <servlet-mapping>
+  	<servlet-name>reconRefundBillOrderServlet</servlet-name>
+  	<url-pattern>/payment/reconRefundBillOrderServlet</url-pattern>
+  </servlet-mapping>
+  
+  <!-- 为[已经对账的支付单]生成[中间结算单(套用分佣模板)]信息 -->
+  <servlet>
+  	<servlet-name>genPaySettleOrderServlet</servlet-name>
+  	<servlet-class>com.chinaepay.wx.servlet.GenPaySettleOrderServlet</servlet-class>
+ 	<load-on-startup>7</load-on-startup>
+  </servlet>
+  <servlet-mapping>
+  	<servlet-name>genPaySettleOrderServlet</servlet-name>
+  	<url-pattern>/payment/genPaySettleOrderServlet</url-pattern>
+  </servlet-mapping>
+  
+  <!-- 为[已经对账的退款单]生成[中间结算单(套用分佣模板)]信息 -->
+  <servlet>
+  	<servlet-name>genRefundSettleOrderServlet</servlet-name>
+  	<servlet-class>com.chinaepay.wx.servlet.GenRefundSettleOrderServlet</servlet-class>
+ 	<load-on-startup>8</load-on-startup>
+  </servlet>
+  <servlet-mapping>
+  	<servlet-name>genRefundSettleOrderServlet</servlet-name>
+  	<url-pattern>/payment/genRefundSettleOrderServlet</url-pattern>
+  </servlet-mapping>
+  
+  <!-- 为[中间结算单(套用分佣模板)]按不同的机构(NOB/Harvest/Agent/SubMerchant)生成[最终结算单]信息 -->
+  <servlet>
+  	<servlet-name>mergPayAndRefundSettleServlet</servlet-name>
+  	<servlet-class>com.chinaepay.wx.servlet.MergPayAndRefundSettleServlet</servlet-class>
+ 	<load-on-startup>9</load-on-startup>
+  </servlet>
+  <servlet-mapping>
+  	<servlet-name>mergPayAndRefundSettleServlet</servlet-name>
+  	<url-pattern>/payment/mergPayAndRefundSettleServlet</url-pattern>
+  </servlet-mapping>
+  
+  <!-- 创建供NOB下载的结算单文件 -->
+  <servlet>
+  	<servlet-name>genSetlOrdForNobDownServlet</servlet-name>
+  	<servlet-class>com.chinaepay.wx.servlet.GenSetlOrdForNobDownServlet</servlet-class>
+ 	<load-on-startup>10</load-on-startup>
+  </servlet>
+  <servlet-mapping>
+  	<servlet-name>genSetlOrdForNobDownServlet</servlet-name>
+  	<url-pattern>/payment/genSetlOrdForNobDownServlet</url-pattern>
+  </servlet-mapping>
+  
+  <!-- 处理NOB上传的结算单文件，并将处理结果更新到后台数据库 -->
+  <servlet>
+  	<servlet-name>procSetlOrdFromNobUpServlet</servlet-name>
+  	<servlet-class>com.chinaepay.wx.servlet.ProcSetlOrdFromNobUpServlet</servlet-class>
+ 	<load-on-startup>11</load-on-startup>
+  </servlet>
+  <servlet-mapping>
+  	<servlet-name>procSetlOrdFromNobUpServlet</servlet-name>
+  	<url-pattern>/payment/procSetlOrdFromNobUpServlet</url-pattern>
+  </servlet-mapping>
+</web-app>
