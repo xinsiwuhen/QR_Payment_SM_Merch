@@ -77,9 +77,9 @@ public class TransactionTester {
 		try {
 			// 装填参数
 			List<NameValuePair> nvps = new ArrayList<NameValuePair>();
-			nvps.add(new BasicNameValuePair("out_trade_no", "20180517131729420390543138188002"));
+			nvps.add(new BasicNameValuePair("out_trade_no", "20180517203623357257767445563118"));
 			nvps.add(new BasicNameValuePair("refund_fee", "1"));
-			nvps.add(new BasicNameValuePair("refund_desc", "Refund For Kevin."));
+			nvps.add(new BasicNameValuePair("refund_desc", "我的退款."));
 			String strURL = strUrlWebRoot + "/payment/refundOrderServlet";
 			transTester.sendReqAndGetRespInfo(strURL, nvps);
 		} catch (IOException e) {
