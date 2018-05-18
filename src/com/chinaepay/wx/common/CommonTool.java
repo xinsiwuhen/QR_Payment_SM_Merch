@@ -120,6 +120,26 @@ public class CommonTool {
 	}
 	
 	/**
+	 * 将字符串按照指定的编码格式进行转换。
+	 * @param strSrc
+	 * @param strSrcStrType
+	 * @param strDestStrType
+	 * @return
+	 */
+	public static String transferCharactor(String strSrc, String strSrcStrType, String strDestStrType) {
+		if (strSrc == null || strSrcStrType == null || strDestStrType == null) {
+			return null;
+		}
+		
+		try {
+			return new String(strSrc.getBytes(strSrcStrType), strDestStrType);
+		} catch (UnsupportedEncodingException e) {
+			e.printStackTrace();
+			return strSrc;
+		}
+	}
+	
+	/**
 	 * 将NULL或""格式的字符串转换为"0"。
 	 * @param strSrc
 	 * @return

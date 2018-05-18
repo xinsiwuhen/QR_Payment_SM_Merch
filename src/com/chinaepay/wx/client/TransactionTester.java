@@ -77,7 +77,7 @@ public class TransactionTester {
 		try {
 			// ×°Ìî²ÎÊý
 			List<NameValuePair> nvps = new ArrayList<NameValuePair>();
-			nvps.add(new BasicNameValuePair("out_trade_no", "20180517203330091586254013891307"));
+			nvps.add(new BasicNameValuePair("out_trade_no", "20180517131729420390543138188002"));
 			nvps.add(new BasicNameValuePair("refund_fee", "1"));
 			nvps.add(new BasicNameValuePair("refund_desc", "Refund For Kevin."));
 			String strURL = strUrlWebRoot + "/payment/refundOrderServlet";

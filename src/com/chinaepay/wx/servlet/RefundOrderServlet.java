@@ -11,13 +11,12 @@ import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.apache.http.entity.StringEntity;
 import org.apache.http.impl.client.CloseableHttpClient;
 
 import com.chinaepay.wx.common.CommonInfo;
 import com.chinaepay.wx.common.CommonTool;
-import com.chinaepay.wx.common.MysqlConnectionPool;
 import com.chinaepay.wx.common.JsonRespObj;
+import com.chinaepay.wx.common.MysqlConnectionPool;
 import com.chinaepay.wx.entity.PayOrderEntiry;
 import com.chinaepay.wx.entity.RefundOrderEntity;
 
@@ -34,8 +33,10 @@ public class RefundOrderServlet extends TransControllerServlet {
 	public void doGet(HttpServletRequest request, HttpServletResponse response) {
 		String strOutTradeNo = request.getParameter("out_trade_no");
 		String strRefundFee = request.getParameter("refund_fee");
-		String strRefundDesc = request.getParameter("refund_desc");
-		System.out.println("###strRefundDesc = " + new StringEntity(strRefundDesc, "UTF-8").toString());
+		String strRefundDesc = CommonTool.transferCharactor(request.getParameter("refund_desc"), "ISO-8859-1", "UTF-8");
+		
+		
+		System.out.println("###strRefundDesc = " + strRefundDesc);
 		
 		
 		JsonRespObj respObj = new JsonRespObj();
