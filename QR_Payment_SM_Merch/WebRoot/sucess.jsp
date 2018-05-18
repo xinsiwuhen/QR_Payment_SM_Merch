@@ -28,7 +28,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
         <div class="success-img"><img src="img/success.jpg" alt=""></div>
         <div class="success-content">
             <p>支付成功!</p>
-            <p>商户名称:XXXXX</p>
+            <p>商户名称:XXXXXY</p>
             <p>支付金额：$50.00</p>
         </div>
     </div>
