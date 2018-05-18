@@ -1,0 +1,130 @@
+// Ideal Steps
+//---------------------------------------
+
+.idealsteps-container *
+  box-sizing: border-box
+
+.idealsteps-step
+  display: none
+  clearfix()
+
+.idealsteps-nav
+
+  ui()
+  overflow: hidden
+  margin-bottom: 2em
+
+  ul
+    reset-box-model()
+    list-style: none
+
+  li
+    float: left
+
+  a
+    position: relative
+    float: left
+    padding: 0 1.5em 0 2.75em
+    height: 3.5em
+    line-height: 3.5em
+    text-decoration: none
+    color: darken(ui-element, 50)
+    background: ui-element
+    transition: padding .2s ease-in-out
+
+    &:focus
+      outline: 0 // Firefox
+
+    &:hover
+      background: lighten(ui-element, 5)
+      &:after
+        border-left-color: lighten(ui-element, 5)
+
+    &:after, &:before
+      content: ""
+      position: absolute
+      z-index: 1
+      top: 0
+      right: -2em
+      margin-right: 0
+      margin-top: -.125em
+      border-width: 2em 1em
+      border-style: solid
+      border-color: transparent
+      border-left-color: ui-element
+
+    &:before
+      margin-right: -1px
+      border-left-color: darken(ui-element, 20)
+
+  li:first-child a
+    padding-left: 1.75em
+    border-radius: left radius
+
+  li.idealsteps-step-active
+    a
+      padding-right: 3.5em
+      background: white
+      color: valid
+      font-weight: bold
+      cursor: default
+
+      &:after
+        border-left-color: white
+
+    .counter
+      opacity: 1
+
+  .counter
+    opacity: 0
+    position: absolute
+    top: 50%
+    right: 1em
+    height: 1.5em
+    width: 1.5em
+    margin-top: -.75em
+    line-height: 1.5 !important
+    text-align: center
+    color: invalid
+    border: 1px solid invalid
+    border-radius: 10em
+    transition: opacity .2s ease-in-out
+
+    &.zero
+      color: valid
+      border-color: valid
+
+.idealsteps-container.adaptive
+
+  .idealsteps-nav
+    max-width: input-width
+
+    border-bottom: 0
+
+    li
+      float: none
+      overflow: hidden
+
+    a, li:first-child a, li.idealsteps-step-active a
+      width: 100%
+      padding: 0 2.5em 0 1.5em
+      border-bottom: 1px solid darken(ui-element, 20)
+      border-top: 1px solid lighten(ui-element, 10)
+      border-radius: 0
+
+      &:after,&:before
+        display: none
+
+    li:first-child a
+      border-radius: top radius
+
+    li:last-child a
+      border-radius: bottom radius
+
+    li.idealsteps-step-active a
+      padding-right: 1.5em
+
+    .counter
+      position: relative
+      float: right
+      right: 0
