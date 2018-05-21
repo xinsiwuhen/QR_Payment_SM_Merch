@@ -1,6 +1,7 @@
 package com.chinaepay.wx.common;
 
 import java.util.Date;
+import java.util.concurrent.locks.ReentrantLock;
 
 import com.chinaepay.wx.servlet.ExtendsHttpServlet;
 
@@ -17,8 +18,13 @@ public class AccessTokenUtil extends ExtendsHttpServlet {
 	private static final String WX_ACCESS_TOKEN_GET_URL = "https://api.weixin.qq.com/cgi-bin/token?grant_type=client_credential&appid=APPID&secret=APPSECRET";
 	private static AccessTokenUtil accessTokenUtil = null;
 	private AccessToken accessToken = null;
+	private ReentrantLock reenLock = null;
 
-	private AccessTokenUtil() {}
+	private AccessTokenUtil() {
+		if (reenLock == null) {
+			reenLock = new ReentrantLock();
+		}
+	}
 
 	public static AccessTokenUtil getInstance() {
 		if (accessTokenUtil == null) {
@@ -33,11 +39,14 @@ public class AccessTokenUtil extends ExtendsHttpServlet {
 	 * @return
 	 */
 	public AccessToken getAccessTokenObj() {
+		
+		reenLock.lock();
 		// 判断当前AccessToken对象是否有效
 		boolean blnIsValiable = this.isVilableToken(accessToken);
 		if (!blnIsValiable) {	// 当前存储的Token已经失效，需要重新从腾讯后台获取
 			accessToken = getTokenFromTencent();
 		}
+		reenLock.unlock();
 		
 		return accessToken;
 	}

@@ -29,16 +29,11 @@ public class GetWxOpenIdServlet extends TransControllerServlet {
 		String strJsonRespFromWx = super.sendReqAndGetResp(strGetWxOpenIdURL, "", CommonTool.getDefaultHttpClient());
 		System.out.println("strJsonRespFromWx = " + strJsonRespFromWx);
 		
-//		JSONObject jsonObj = JSONObject.fromObject(strJsonRespFromWx);
-//		String strOpenId = jsonObj.getString("openid");
-		
 		String strOpenId =  this.getOpenIdFromWxRespInfo(strJsonRespFromWx);
 		String strDispatcherURL = null;
 		if (strOpenId != null) {
-//			strDispatcherURL = "../validTotalFee.jsp?sub_mch_id=" + strSubMchId + "&openid=" + strOpenId;
 			strDispatcherURL = "validTotalFee.jsp?sub_mch_id=" + strSubMchId + "&openid=" + strOpenId;
 		} else {
-//			strDispatcherURL = "../error.jsp?msg=获取顾客的OpenId失败！";
 			strDispatcherURL = "error.jsp?sub_mch_id=" + strSubMchId + "&msg=获取顾客的OpenId失败！";
 		}
 		System.out.println("strDispatcherURL = " + strDispatcherURL);
@@ -50,14 +45,6 @@ public class GetWxOpenIdServlet extends TransControllerServlet {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-		
-//		try {
-//			request.getRequestDispatcher(strDispatcherURL).forward(request, response);
-//		} catch (ServletException e) {
-//			e.printStackTrace();
-//		} catch (IOException e) {
-//			e.printStackTrace();
-//		}
 	}
 	
 	public void doPost(HttpServletRequest request, HttpServletResponse response) {
